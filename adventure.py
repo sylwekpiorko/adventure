@@ -1,4 +1,6 @@
 from data import locations
+from data import descriptions
+from data import objects
 
 directions = {
     'west': (-1, 0),
@@ -7,11 +9,25 @@ directions = {
     'south': (0, 1),
 }
 
+map = ['H', 'P', 'L', 'M']
+
 position = (0, 0)
+pocket = []
 
 while True:
     location = locations[position]
-    print 'you are at the %s ' % location
+    description = descriptions[location]
+    object = objects[location]
+
+    print 'you are at the %s ' % description,
+    print ' and have %s in Your pocket' % pocket
+    print ' There are such objects You can pick: %s' % object
+    choice = []
+    while  choice not in object:
+        choice = raw_input('What do You pick from the location ?')
+    print 'You picked %s' % choice
+    pocket.append(choice)
+
 
     valid_directions = {}
     for k, v in directions.iteritems():
@@ -24,5 +40,22 @@ while True:
             valid_directions[k] = possible_position
 
     # print valid_directions
-    direction = raw_input('which direction do you want to go?\n')
+    direction = ''
+    while direction not in valid_directions:
+        direction = raw_input('which direction do you want to go?\n')
+
     position = valid_directions[direction]
+
+    pos_short = locations[position]
+    position_short = pos_short[0].upper()
+
+    for place in map:
+        # print place, position_short
+        if place == position_short:
+            print ' ',
+        else:
+            print place,
+        if place == 'P':
+            print
+    print
+
